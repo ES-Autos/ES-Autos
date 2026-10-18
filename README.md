@@ -35,7 +35,9 @@ Sans configuration Firebase, l'application fonctionne déjà, mais chaque appare
 2. Onglet **Méthode de connexion** → activer **Adresse e-mail/Mot de passe**.
 3. Onglet **Utilisateurs** → **Ajouter un utilisateur** : saisir l'e-mail du garage et un mot de passe solide.
 
-C'est ce compte qui servira à se connecter sur le téléphone et l'ordinateur. L'application ne permet pas de créer de compte elle-même, c'est volontaire.
+L'adresse n'a pas besoin d'exister ni de recevoir des mails : c'est un simple identifiant (par exemple `garage@es-autos.fr`). Le mot de passe choisi ici sera le **code d'accès** du garage (6 caractères minimum).
+
+L'application ne permet pas de créer de compte elle-même, c'est volontaire.
 
 ## Étape 4 : créer la base de données
 
@@ -54,7 +56,17 @@ Sans cette étape, n'importe qui pourrait lire les chantiers. Ne pas la sauter.
 
 ## Étape 6 : brancher l'application
 
-Ouvrir `index.html` avec un éditeur de texte (Bloc-notes suffit) et chercher `FIREBASE_CONFIG`. Recopier les valeurs du bloc de l'étape 2 :
+Ouvrir `index.html` avec un éditeur de texte (Bloc-notes suffit).
+
+D'abord, chercher `LOGIN_EMAIL` et y mettre l'e-mail créé à l'étape 3 :
+
+```js
+const LOGIN_EMAIL = "garage@es-autos.fr";
+```
+
+L'écran de connexion ne demandera alors que le code d'accès, jamais l'e-mail.
+
+Ensuite, chercher `FIREBASE_CONFIG` et recopier les valeurs du bloc de l'étape 2 :
 
 ```js
 const FIREBASE_CONFIG = {
@@ -89,7 +101,7 @@ Sans cela, la connexion est refusée.
 - **Android** : ouvrir l'adresse dans Chrome → menu ⋮ → **Ajouter à l'écran d'accueil** ou **Installer l'application**.
 - **Ordinateur** : ouvrir l'adresse dans Chrome ou Edge et l'ajouter aux favoris (ou icône d'installation dans la barre d'adresse).
 
-Se connecter une fois sur chaque appareil. La connexion est mémorisée.
+Saisir le code d'accès une fois sur chaque appareil. La connexion est mémorisée.
 
 ---
 

@@ -402,10 +402,10 @@ legend{font-family:var(--cond);font-weight:600;font-size:1.15rem;margin-bottom:.
   <div class="login-card">
     <svg class="logo-ic" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#1f3f9a"/><g fill="#ffffff"><path transform="translate(120.70 318.00)" d="M119.69999999999999 -173.7H57.0Q55.5 -173.7 55.5 -172.2V-124.8Q55.5 -123.3 57.0 -123.3H93.0Q94.5 -123.3 95.55 -122.25Q96.6 -121.19999999999999 96.6 -119.69999999999999V-90.6Q96.6 -89.1 95.55 -88.05Q94.5 -87.0 93.0 -87.0H57.0Q55.5 -87.0 55.5 -85.5V-37.8Q55.5 -36.3 57.0 -36.3H119.69999999999999Q121.19999999999999 -36.3 122.25 -35.25Q123.3 -34.199999999999996 123.3 -32.699999999999996V-3.5999999999999996Q123.3 -2.1 122.25 -1.05Q121.19999999999999 0.0 119.69999999999999 0.0H16.8Q15.299999999999999 0.0 14.25 -1.05Q13.2 -2.1 13.2 -3.5999999999999996V-206.4Q13.2 -207.9 14.25 -208.95Q15.299999999999999 -210.0 16.8 -210.0H119.69999999999999Q121.19999999999999 -210.0 122.25 -208.95Q123.3 -207.9 123.3 -206.4V-177.29999999999998Q123.3 -175.79999999999998 122.25 -174.75Q121.19999999999999 -173.7 119.69999999999999 -173.7Z M146.4 -52.5V-61.199999999999996Q146.4 -62.699999999999996 147.45 -63.75Q148.5 -64.8 150.0 -64.8H184.5Q186.0 -64.8 187.05 -63.75Q188.1 -62.699999999999996 188.1 -61.199999999999996V-54.6Q188.1 -45.3 192.89999999999998 -39.599999999999994Q197.7 -33.9 204.9 -33.9Q212.10000000000002 -33.9 216.9 -39.3Q221.7 -44.699999999999996 221.7 -53.4Q221.7 -62.4 215.7 -68.85Q209.7 -75.3 192.3 -87.89999999999999Q177.3 -98.7 168.0 -107.1Q158.70000000000002 -115.5 152.10000000000002 -127.8Q145.5 -140.1 145.5 -156.29999999999998Q145.5 -181.79999999999998 161.4 -197.1Q177.3 -212.4 203.4 -212.4Q229.8 -212.4 245.85 -196.5Q261.9 -180.6 261.9 -154.79999999999998V-147.6Q261.9 -146.1 260.85 -145.05Q259.8 -144.0 258.3 -144.0H223.8Q222.3 -144.0 221.25 -145.05Q220.2 -146.1 220.2 -147.6V-155.7Q220.2 -165.0 215.55 -170.55Q210.9 -176.1 203.4 -176.1Q196.2 -176.1 191.7 -170.85Q187.2 -165.6 187.2 -156.29999999999998Q187.2 -147.29999999999998 192.89999999999998 -140.39999999999998Q198.6 -133.5 215.4 -121.19999999999999Q234.0 -107.39999999999999 243.45 -98.85Q252.9 -90.3 258.15 -79.94999999999999Q263.4 -69.6 263.4 -55.199999999999996Q263.4 -28.799999999999997 247.2 -13.2Q231.0 2.4 204.60000000000002 2.4Q187.2 2.4 174.0 -4.5Q160.8 -11.4 153.60000000000002 -23.849999999999998Q146.4 -36.3 146.4 -52.5Z"/></g><g fill="#ffd21f"><rect x="96" y="372" width="58" height="18" rx="4"/><rect x="186" y="372" width="58" height="18" rx="4"/><rect x="276" y="372" width="58" height="18" rx="4"/><rect x="366" y="372" width="58" height="18" rx="4"/></g></svg>
     <h1>ES Autos</h1>
-    <p>Connectez-vous pour retrouver vos chantiers sur le téléphone et l'ordinateur.</p>
+    <p id="lIntro">Connectez-vous pour retrouver vos chantiers sur le téléphone et l'ordinateur.</p>
     <form id="loginForm" novalidate>
-      <div class="field"><label for="lEmail">Adresse e-mail</label><input id="lEmail" type="email" autocomplete="username" required></div>
-      <div class="field"><label for="lPass">Mot de passe</label><input id="lPass" type="password" autocomplete="current-password" required></div>
+      <div class="field" id="lEmailField"><label for="lEmail">Adresse e-mail</label><input id="lEmail" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="lPass" id="lPassLabel">Mot de passe</label><input id="lPass" type="password" autocomplete="current-password" required></div>
       <p class="err" id="lErr" hidden></p>
       <button class="btn btn-primary" type="submit" id="lBtn">Se connecter</button>
     </form>
@@ -421,6 +421,11 @@ legend{font-family:var(--cond);font-weight:600;font-size:1.15rem;margin-bottom:.
    (Console Firebase > Paramètres du projet > Vos applications > Web).
    Laissez apiKey vide pour utiliser l'outil sans synchronisation.
    ===================================================================== */
+/* E-mail du compte créé dans Firebase > Authentication.
+   Rempli ici, l'écran de connexion demande seulement le code d'accès
+   (le mot de passe du compte). Laissé vide, il demande e-mail + mot de passe. */
+const LOGIN_EMAIL = "";
+
 const FIREBASE_CONFIG = {
   apiKey: "",
   authDomain: "",
@@ -905,7 +910,7 @@ async function startFirebase(){
   window.addEventListener('offline', ()=>setSync('off'));
   fauth.onAuthStateChanged(user=>{
     if (unsub){ unsub(); unsub = null; }
-    if (!user){ items = []; render(); $('#login').hidden = false; setTimeout(()=>$('#lEmail').focus(), 30); return; }
+    if (!user){ items = []; render(); $('#login').hidden = false; setTimeout(()=>$(CODE_ONLY ? '#lPass' : '#lEmail').focus(), 30); return; }
     $('#login').hidden = true;
     setSync(navigator.onLine ? 'on' : 'off');
     unsub = fs.collection('chantiers').onSnapshot(snap=>{
@@ -914,11 +919,18 @@ async function startFirebase(){
     }, err=>{ if (err && err.code === 'permission-denied'){ toast("Ce compte n'a pas accès aux chantiers"); } else setSync('off'); });
   });
 }
+const CODE_ONLY = typeof LOGIN_EMAIL === 'string' && LOGIN_EMAIL.trim() !== '';
+if (CODE_ONLY){
+  $('#lEmail').value = LOGIN_EMAIL.trim();
+  $('#lEmailField').hidden = true;
+  $('#lPassLabel').textContent = "Code d'accès";
+  $('#lIntro').textContent = "Saisissez le code d'accès du garage. Il ne sera plus demandé sur cet appareil.";
+}
 $('#loginForm').addEventListener('submit', async e=>{
   e.preventDefault();
   const er = $('#lErr'); er.hidden = true;
   const email = $('#lEmail').value.trim(), pass = $('#lPass').value;
-  if (!email || !pass){ er.textContent = "Saisissez l'adresse e-mail et le mot de passe."; er.hidden = false; return; }
+  if (!email || !pass){ er.textContent = CODE_ONLY ? "Saisissez le code d'accès." : "Saisissez l'adresse e-mail et le mot de passe."; er.hidden = false; return; }
   $('#lBtn').disabled = true; $('#lBtn').textContent = 'Connexion…';
   try { await fauth.signInWithEmailAndPassword(email, pass); $('#lPass').value = ''; }
   catch(err){
@@ -926,7 +938,7 @@ $('#loginForm').addEventListener('submit', async e=>{
     er.textContent = (c === 'auth/network-request-failed') ? "Pas de connexion internet. Réessayez une fois connecté."
       : (c === 'auth/too-many-requests') ? "Trop de tentatives. Patientez quelques minutes puis réessayez."
       : (c === 'auth/invalid-email') ? "Cette adresse e-mail n'est pas valide."
-      : "E-mail ou mot de passe incorrect.";
+      : CODE_ONLY ? "Code d'accès incorrect." : "E-mail ou mot de passe incorrect.";
     er.hidden = false;
   }
   $('#lBtn').disabled = false; $('#lBtn').textContent = 'Se connecter';
